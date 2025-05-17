@@ -26,6 +26,36 @@
             
 
                         /**
+                        * field for Valido
+                        */
+
+                        
+                                    protected boolean localValido ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return boolean
+                           */
+                           public  boolean getValido(){
+                               return localValido;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Valido
+                               */
+                               public void setValido(boolean param){
+                            
+                                            this.localValido=param;
+                                       
+
+                               }
+                            
+
+                        /**
                         * field for MensajeSalida
                         */
 
@@ -114,6 +144,19 @@
                
                    }
                
+                                    namespace = "";
+                                    writeStartElement(null, namespace, "valido", xmlWriter);
+                             
+                                               if (false) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("valido cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localValido));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             
                                     namespace = "";
                                     writeStartElement(null, namespace, "mensajeSalida", xmlWriter);
                              
@@ -318,6 +361,12 @@
 
                 
                                       elementList.add(new javax.xml.namespace.QName("",
+                                                                      "valido"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localValido));
+                            
+                                      elementList.add(new javax.xml.namespace.QName("",
                                                                       "mensajeSalida"));
                                  
                                         if (localMensajeSalida != null){
@@ -401,6 +450,31 @@
                     
                     reader.next();
                 
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("","valido").equals(reader.getName())){
+                                
+                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"valido" +"  cannot be null");
+                                    }
+                                    
+
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setValido(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                                }
+                            
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 

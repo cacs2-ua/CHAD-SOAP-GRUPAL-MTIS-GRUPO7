@@ -9,6 +9,12 @@
     /**
      *  ValidacionSkeleton java skeleton for the axisService
      */
+    
+import java.time.LocalDateTime;
+import java.util.Calendar;
+
+import exception.WSKeyNoValidaException;
+	import utils.*;
     public class ValidacionSkeleton{
         
          
@@ -24,8 +30,43 @@
                   org.example.www.validacion.ValidarFechas validarFechas
                   )
             {
-                //TODO : fill this with the necessary business logic
-                throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#validarFechas");
+                	 ValidarFechasResponse response = new ValidarFechasResponse();
+
+             		try {
+                		String WSKey = validarFechas.getWSKey();
+                        
+                        Utils.verificarWSKey(WSKey);
+            		} catch (Exception e) {
+            			response.setValido(false);
+            	        response.setMensajeSalida(e.getMessage());
+            	        return response;
+            		}
+             		
+             		
+             		Calendar calFechaInicio = validarFechas.getFechaInicio();
+             		LocalDateTime fechaInicio = LocalDateTime.ofInstant(
+         				calFechaInicio.toInstant(),
+         				calFechaInicio.getTimeZone().toZoneId()
+             		);
+             		
+             		Calendar calFechaFin = validarFechas.getFechaFin();
+             		LocalDateTime fechaFin = LocalDateTime.ofInstant(
+             				calFechaFin.toInstant(),
+             				calFechaFin.getTimeZone().toZoneId()
+             		);
+             		
+             		if (fechaInicio.isAfter(fechaFin)) {
+             			response.setValido(false);
+             			response.setMensajeSalida("ERROR: El rango de fechas introducido NO es válido");
+             		}
+             		
+             		else {
+             			response.setValido(true);
+             			response.setMensajeSalida("OK: El rango de fechas introducido SÍ es válido");
+             		}
+             		
+             		return response;
+
         }
      
     }
