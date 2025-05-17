@@ -26,6 +26,36 @@
             
 
                         /**
+                        * field for DatosReporte
+                        */
+
+                        
+                                    protected org.example.www.reporte.ReporteType localDatosReporte ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return org.example.www.reporte.ReporteType
+                           */
+                           public  org.example.www.reporte.ReporteType getDatosReporte(){
+                               return localDatosReporte;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DatosReporte
+                               */
+                               public void setDatosReporte(org.example.www.reporte.ReporteType param){
+                            
+                                            this.localDatosReporte=param;
+                                       
+
+                               }
+                            
+
+                        /**
                         * field for MensajeSalida
                         */
 
@@ -114,6 +144,12 @@
                
                    }
                
+                                            if (localDatosReporte==null){
+                                                 throw new org.apache.axis2.databinding.ADBException("datosReporte cannot be null!!");
+                                            }
+                                           localDatosReporte.serialize(new javax.xml.namespace.QName("","datosReporte"),
+                                               xmlWriter);
+                                        
                                     namespace = "";
                                     writeStartElement(null, namespace, "mensajeSalida", xmlWriter);
                              
@@ -317,6 +353,15 @@
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
                 
+                            elementList.add(new javax.xml.namespace.QName("",
+                                                                      "datosReporte"));
+                            
+                            
+                                    if (localDatosReporte==null){
+                                         throw new org.apache.axis2.databinding.ADBException("datosReporte cannot be null!!");
+                                    }
+                                    elementList.add(localDatosReporte);
+                                
                                       elementList.add(new javax.xml.namespace.QName("",
                                                                       "mensajeSalida"));
                                  
@@ -401,6 +446,22 @@
                     
                     reader.next();
                 
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("","datosReporte").equals(reader.getName())){
+                                
+                                                object.setDatosReporte(org.example.www.reporte.ReporteType.Factory.parse(reader));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                                }
+                            
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
