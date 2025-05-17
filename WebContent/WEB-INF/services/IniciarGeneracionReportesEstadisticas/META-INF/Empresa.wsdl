@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Empresa" targetNamespace="http://www.example.org/Empresa/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/Empresa/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Empresa/">
+      <xsd:element name="consultarTodasEmpresas">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="WSKey" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="consultarTodasEmpresasResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element maxOccurs="unbounded" minOccurs="0" name="empresas" type="tns:EmpresaType"/>
+          	<xsd:element name="mensajeSalida" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    
+      <xsd:complexType name="EmpresaType">
+      	<xsd:sequence>
+      		<xsd:element name="nombre" type="xsd:string"/>
+      		<xsd:element name="email" type="xsd:string"/>
+      		<xsd:element name="identificadorFiscal" type="xsd:string">
+      		</xsd:element>
+      		<xsd:element name="identificadorEmpleador" type="xsd:string">
+      		</xsd:element>
+      		<xsd:element name="iban" type="xsd:string"/>
+      		<xsd:element name="pais" type="xsd:string"/>
+      		<xsd:element name="provincia" type="xsd:string"/>
+      		<xsd:element name="localidad" type="xsd:string"/>
+      		<xsd:element name="direccionCompletaFacturacion" type="xsd:string">
+      		</xsd:element>
+      		<xsd:element name="codigoPostal" type="xsd:string"/>
+      		<xsd:element name="id" type="xsd:int"/>
+      	</xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="consultarEmpresa">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="emailEmpresa" type="xsd:string">
+      			</xsd:element>
+      			<xsd:element name="WSKey" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="consultarEmpresaResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="1" minOccurs="0" name="empresa" type="tns:EmpresaType">
+      			</xsd:element>
+      			<xsd:element name="mensajeSalida" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="consultarTodasEmpresasResponse">
+    <wsdl:part name="parameters" element="tns:consultarTodasEmpresasResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarEmpresaRequest">
+    <wsdl:part name="parameters" element="tns:consultarEmpresa">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarEmpresaResponse">
+    <wsdl:part name="parameters" element="tns:consultarEmpresaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarTodasEmpresasRequest">
+    <wsdl:part name="parameters" element="tns:consultarTodasEmpresas">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Empresa">
+    <wsdl:operation name="consultarTodasEmpresas">
+      <wsdl:input message="tns:consultarTodasEmpresasRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:consultarTodasEmpresasResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultarEmpresa">
+      <wsdl:input message="tns:consultarEmpresaRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:consultarEmpresaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EmpresaSOAP" type="tns:Empresa">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="consultarTodasEmpresas">
+      <soap:operation soapAction="http://www.example.org/Empresa/consultarTodasEmpresas"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultarEmpresa">
+      <soap:operation soapAction="http://www.example.org/Empresa/consultarEmpresa"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Empresa">
+    <wsdl:port name="EmpresaSOAP" binding="tns:EmpresaSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
