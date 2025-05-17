@@ -8,7 +8,9 @@
     package org.example.www.empresa;
     
     import java.sql.SQLException;
-    import exception.WSKeyNoValidaException;
+import java.util.List;
+
+import exception.WSKeyNoValidaException;
     
     import ConexionDB.EmpresaRepository;
     
@@ -74,8 +76,22 @@
                   org.example.www.empresa.ConsultarTodasEmpresas consultarTodasEmpresas
                   )
             {
-                //TODO : fill this with the necessary business logic
-                throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#consultarTodasEmpresas");
+                	 ConsultarTodasEmpresasResponse response = new ConsultarTodasEmpresasResponse();
+                	 
+                	 try {
+                     	String WSKey = consultarTodasEmpresas.getWSKey();
+                     	
+                     	Utils.verificarWSKey(WSKey);
+                     	
+                     	List<EmpresaType> empresas = this.empresaRepository.consultarTodasEmpresas();
+                     	response.setEmpresas(empresas.toArray(new EmpresaType[0]));
+                		response.setMensajeSalida("Se han obtenido todos los datos de todas las empresas exitosamente.");
+
+                		return response;
+                	 } catch (Exception e) {
+              			response.setMensajeSalida(e.getMessage());
+            			return response;
+            		}
         }
      
     }

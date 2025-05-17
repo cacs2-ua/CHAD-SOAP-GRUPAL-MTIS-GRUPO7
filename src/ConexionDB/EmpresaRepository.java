@@ -66,4 +66,55 @@ public class EmpresaRepository {
         }
 		
 	}
+	
+	public List<EmpresaType> consultarTodasEmpresas() throws SQLException {
+		
+		List<EmpresaType> empresas = new ArrayList<>();
+		Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+        	con = this.conexion.conectar();
+        	
+        	String sql = "SELECT * FROM empresas ORDER BY id DESC;";
+        	stmt = con.prepareStatement(sql);
+        	rs = stmt.executeQuery();
+        	
+        	while (rs.next()) {
+        		EmpresaType empresa = new EmpresaType();
+        		
+                empresa.setId(rs.getInt("id"));
+                empresa.setUuid(rs.getString("uuid"));
+                empresa.setNombre(rs.getString("nombre"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setIdentificadorFiscal(rs.getString("identificador_fiscal"));
+                empresa.setIdentificadorEmpleador(rs.getString("identificador_empleador"));
+                empresa.setIban(rs.getString("iban"));
+                empresa.setPais(rs.getString("pais"));
+                empresa.setProvincia(rs.getString("provincia"));
+                empresa.setLocalidad(rs.getString("localidad"));
+                empresa.setDireccionCompletaFacturacion(rs.getString("direccion_completa_facturacion"));
+                empresa.setCodigoPostal(rs.getString("codigo_postal"));
+                
+                empresas.add(empresa);
+        	}
+        	
+            if (empresas.isEmpty()) {
+                throw new NoSuchElementException("ADVERTENCIA: No existe ninguna empresa registrada "
+                						+ "en la base de datos. ");
+            }
+            
+            return empresas;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+		
+	}
 }
