@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/Reporte/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Reporte" targetNamespace="http://www.example.org/Reporte/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Reporte/">
+      <xsd:element name="calcularDatosReporte">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="datosEntrada"
+          		type="tns:CalcularDatosReporteType" />
+          	<xsd:element name="WSKey" type="xsd:string"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="calcularDatosReporteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="mensajeSalida" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="guardarReporteEnBD">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="datosEntrada"
+      				type="tns:ReporteType">
+      			</xsd:element>
+      			<xsd:element name="WSKey" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="guardarReporteEnBDResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="mensajeSalida" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    
+      <xsd:complexType name="CalcularDatosReporteType">
+      	<xsd:sequence>
+
+      		<xsd:element name="fechaInicio" type="xsd:dateTime"></xsd:element>
+      		<xsd:element name="fechaFin" type="xsd:dateTime"></xsd:element>
+      		<xsd:element name="emailEmpresa" type="xsd:string"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+    
+    
+        
+      <xsd:complexType name="ReporteType">
+      	<xsd:sequence>
+      		<xsd:element name="fechaInicio" type="xsd:dateTime"></xsd:element>
+      		<xsd:element name="fechaFin" type="xsd:dateTime"></xsd:element>
+      		<xsd:element name="numeroTotalFacturasEmitidas"
+      			type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="sumaTotalImportes" type="xsd:double"></xsd:element>
+      		<xsd:element name="numeroTotalFacturasValidas"
+      			type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalFacturasSubsanadas"
+      			type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalFacturasAnuladas"
+      			type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalFacturasInvalidas"
+      			type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="emailEmpresa" type="xsd:string"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="calcularDatosReporteGlobal">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="fechaInicio" type="xsd:dateTime"></xsd:element>
+      			<xsd:element name="fechaFin" type="xsd:dateTime"></xsd:element>
+      			<xsd:element name="WSKey" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="calcularDatosReporteGlobalResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="mensajeSalida" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="calcularDatosReporteRequest">
+    <wsdl:part element="tns:calcularDatosReporte" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="calcularDatosReporteResponse">
+    <wsdl:part element="tns:calcularDatosReporteResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="guardarReporteEnBDRequest">
+  	<wsdl:part name="parameters" element="tns:guardarReporteEnBD"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="guardarReporteEnBDResponse">
+  	<wsdl:part name="parameters" element="tns:guardarReporteEnBDResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="calcularDatosReporteGlobalRequest">
+  	<wsdl:part name="parameters" element="tns:calcularDatosReporteGlobal"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="calcularDatosReporteGlobalResponse">
+  	<wsdl:part name="parameters" element="tns:calcularDatosReporteGlobalResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Reporte">
+    <wsdl:operation name="calcularDatosReporte">
+      <wsdl:input message="tns:calcularDatosReporteRequest"/>
+      <wsdl:output message="tns:calcularDatosReporteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="guardarReporteEnBD">
+    	<wsdl:input message="tns:guardarReporteEnBDRequest"></wsdl:input>
+    	<wsdl:output message="tns:guardarReporteEnBDResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calcularDatosReporteGlobal">
+    	<wsdl:input message="tns:calcularDatosReporteGlobalRequest"></wsdl:input>
+    	<wsdl:output message="tns:calcularDatosReporteGlobalResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReporteSOAP" type="tns:Reporte">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="calcularDatosReporte">
+  		<soap:operation
+  			soapAction="http://www.example.org/Reporte/calcularDatosReporte" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="guardarReporteEnBD">
+  		<soap:operation
+  			soapAction="http://www.example.org/Reporte/guardarReporteEnBD" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="calcularDatosReporteGlobal">
+  		<soap:operation
+  			soapAction="http://www.example.org/Reporte/calcularDatosReporteGlobal" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Reporte">
+    <wsdl:port binding="tns:ReporteSOAP" name="ReporteSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

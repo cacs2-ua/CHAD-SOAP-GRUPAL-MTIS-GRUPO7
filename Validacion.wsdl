@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/Validacion/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Validacion" targetNamespace="http://www.example.org/Validacion/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Validacion/">
+      <xsd:element name="validarFechas">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="fechaInicio" type="xsd:dateTime" />
+          	<xsd:element name="fechaFin" type="xsd:dateTime"></xsd:element>
+          	<xsd:element name="WSKey" type="xsd:string"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="validarFechasResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="mensajeSalida" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="validarFechasRequest">
+    <wsdl:part element="tns:validarFechas" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="validarFechasResponse">
+    <wsdl:part element="tns:validarFechasResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="Validacion">
+    <wsdl:operation name="validarFechas">
+      <wsdl:input message="tns:validarFechasRequest"/>
+      <wsdl:output message="tns:validarFechasResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ValidacionSOAP" type="tns:Validacion">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="validarFechas">
+      <soap:operation soapAction="http://www.example.org/Validacion/validarFechas"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Validacion">
+    <wsdl:port binding="tns:ValidacionSOAP" name="ValidacionSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
