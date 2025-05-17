@@ -55,7 +55,7 @@ import exception.WSKeyNoValidaException;
              				calFechaFin.getTimeZone().toZoneId()
              		);
              		
-             		if (fechaInicio.isAfter(fechaFin)) {
+             		if (fechaInicio.isAfter(fechaFin) || fechaInicio.isEqual(fechaFin)) {
              			response.setValido(false);
              			response.setMensajeSalida("ERROR: El rango de fechas introducido NO es válido");
              		}
