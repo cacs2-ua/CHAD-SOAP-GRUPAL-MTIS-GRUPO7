@@ -110,8 +110,8 @@ import java.sql.SQLException;
               				calFechaFin.toInstant(),
               				calFechaFin.getTimeZone().toZoneId());
               		
-              		
-              		String emailEmpresa = generarPDF.getDatosReporte().getEmailEmpresa().trim();
+              		Long reporteId = (long) generarPDF.getDatosReporte().getReporteId();
+              		String emailEmpresa = this.documentoRepository.obtenerEmailEmpresaPorIdReporte(reporteId);
               		
               		int numeroTotalFacturasEmitidas = generarPDF.getDatosReporte().getNumeroTotalFacturasEmitidas();
               		double sumaTotalImportes = generarPDF.getDatosReporte().getSumaTotalImportes();
@@ -138,10 +138,10 @@ import java.sql.SQLException;
               		String fileName = uuid + "_" + timestamp + ".pdf";
 
               		if (emailEmpresa.equals(emailEmpresaPrincipal)) {
-              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/global/" + fileName;
+              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/global/" + fileName;
               		    tituloReporte = "GLOBAL STATISTICS REPORT";
               		} else {
-              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/normal/" + fileName;
+              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/normal/" + fileName;
               		    tituloReporte = "STATISTICS REPORT";
               		}
 
@@ -203,6 +203,13 @@ import java.sql.SQLException;
 	                    
 	                    String fechaInicioStr = fechaInicio.format(formatter);
 	                    String fechaFinStr = fechaFin.format(formatter);
+	                    
+	                    document.add(new Paragraph()
+	                            .setMarginLeft(20)
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
+	                            .add(new Text("Company email: ").setFont(bold).setFontSize(10))
+	                            .add(new Text(emailEmpresa).setFont(font).setFontSize(10))
+	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
@@ -270,10 +277,6 @@ import java.sql.SQLException;
 
 	                    
 	                    document.close();
-	                
-	                    System.out.println("PDF generated at: " + rutaPDF);
-	                    
-	                    Long reporteId = (long) generarPDF.getDatosReporte().getReporteId();
 	                    
 	                    LocalDateTime fechaCreacion = LocalDateTime.now();
 	                    
@@ -282,7 +285,7 @@ import java.sql.SQLException;
 	                    
 	                    this.documentoRepository.insertarDocumentoReporte(fechaCreacion, fileName, rutaPDF, tamanyo, "application/pdf", reporteId);
 	                    
-	                    response.setMensajeSalida("PDF generated at: " + rutaPDF);
+	                    response.setMensajeSalida("PDF registrado correctamente y almacenado en: " + rutaPDF);
 	              		
 	              		return response;
 	              		

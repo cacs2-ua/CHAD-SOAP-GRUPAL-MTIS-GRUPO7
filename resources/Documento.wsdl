@@ -33,8 +33,7 @@
       		</xsd:element>
       		<xsd:element name="numeroTotalFacturasInvalidas" type="xsd:int">
       		</xsd:element>
-      		<xsd:element maxOccurs="1" minOccurs="1" name="emailEmpresa" type="xsd:string">
-      		</xsd:element>
+
       		<xsd:element name="reporteId" type="xsd:int"/>
       	</xsd:sequence>
       </xsd:complexType>

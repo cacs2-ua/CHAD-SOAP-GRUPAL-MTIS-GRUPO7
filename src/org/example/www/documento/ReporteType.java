@@ -265,36 +265,6 @@
                             
 
                         /**
-                        * field for EmailEmpresa
-                        */
-
-                        
-                                    protected java.lang.String localEmailEmpresa ;
-                                
-
-                           /**
-                           * Auto generated getter method
-                           * @return java.lang.String
-                           */
-                           public  java.lang.String getEmailEmpresa(){
-                               return localEmailEmpresa;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param EmailEmpresa
-                               */
-                               public void setEmailEmpresa(java.lang.String param){
-                            
-                                            this.localEmailEmpresa=param;
-                                       
-
-                               }
-                            
-
-                        /**
                         * field for ReporteId
                         */
 
@@ -494,24 +464,6 @@
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumeroTotalFacturasInvalidas));
                                                }
-                                    
-                                   xmlWriter.writeEndElement();
-                             
-                                    namespace = "";
-                                    writeStartElement(null, namespace, "emailEmpresa", xmlWriter);
-                             
-
-                                          if (localEmailEmpresa==null){
-                                              // write the nil attribute
-                                              
-                                                     throw new org.apache.axis2.databinding.ADBException("emailEmpresa cannot be null!!");
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localEmailEmpresa);
-                                            
-                                          }
                                     
                                    xmlWriter.writeEndElement();
                              
@@ -767,15 +719,6 @@
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumeroTotalFacturasInvalidas));
                             
-                                      elementList.add(new javax.xml.namespace.QName("",
-                                                                      "emailEmpresa"));
-                                 
-                                        if (localEmailEmpresa != null){
-                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localEmailEmpresa));
-                                        } else {
-                                           throw new org.apache.axis2.databinding.ADBException("emailEmpresa cannot be null!!");
-                                        }
-                                    
                                       elementList.add(new javax.xml.namespace.QName("",
                                                                       "reporteId"));
                                  
@@ -1047,31 +990,6 @@
                                     
                                               object.setNumeroTotalFacturasInvalidas(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
-                                              
-                                        reader.next();
-                                    
-                              }  // End of if for expected property start element
-                                
-                                else{
-                                    // A start element we are not expecting indicates an invalid parameter was passed
-                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
-                                }
-                            
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("","emailEmpresa").equals(reader.getName())){
-                                
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"emailEmpresa" +"  cannot be null");
-                                    }
-                                    
-
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setEmailEmpresa(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                               
                                         reader.next();
                                     

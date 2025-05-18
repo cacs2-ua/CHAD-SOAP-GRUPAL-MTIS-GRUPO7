@@ -65,27 +65,27 @@ public class DocumentoRepository {
         }
     }
     
-	public String obtenerEmailEmpresaPorIdReporte(Long empresaId) throws SQLException {
-	    Connection con = null;
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
+    public String obtenerEmailEmpresaPorIdReporte(Long reporteEstadisticasId) throws SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-	    try {
-	        con = this.conexion.conectar();
-	        String sql = "SELECT email FROM empresas e, reportes_estadisticas r "
-	        		+ " WHERE e.id = r.empresa_id and "
-	        		+ "e.id = ?";
-	        stmt = con.prepareStatement(sql);
-	        stmt.setLong(1, empresaId);
-	        rs = stmt.executeQuery();
+        try {
+            con = this.conexion.conectar();
+            String sql = "SELECT e.email FROM empresas e "
+                       + "JOIN reportes_estadisticas r ON e.id = r.empresa_id "
+                       + "WHERE r.id = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, reporteEstadisticasId);
+            rs = stmt.executeQuery();
 
-	        if (rs.next()) {
-	            return rs.getString("email");
-	        } else {
-	            return "Empresa no encontrada."; 
-	        }
+            if (rs.next()) {
+                return rs.getString("email");
+            } else {
+                return "Empresa no encontrada.";
+            }
 
-	    } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new SQLException(e.getMessage());
         } finally {
@@ -93,6 +93,7 @@ public class DocumentoRepository {
             try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
-	}
+    }
+
 
 }
