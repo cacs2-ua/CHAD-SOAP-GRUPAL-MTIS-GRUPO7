@@ -139,16 +139,60 @@ import ConexionDB.ReporteRepository;
          * 
                                      * @param guardarReporteEnBD 
              * @return guardarReporteEnBDResponse 
+         * @throws SQLException 
+         * @throws WSKeyNoValidaException 
+         * @throws RangoFechasException 
          */
         
                  public org.example.www.reporte.GuardarReporteEnBDResponse guardarReporteEnBD
                   (
                   org.example.www.reporte.GuardarReporteEnBD guardarReporteEnBD
-                  )
+                  ) throws SQLException, WSKeyNoValidaException, RangoFechasException
             {
-                //TODO : fill this with the necessary business logic
-                throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#guardarReporteEnBD");
+                GuardarReporteEnBDResponse response = new GuardarReporteEnBDResponse();
+                String WSKey = guardarReporteEnBD.getWSKey();
+                 
+                Utils.verificarWSKey(WSKey);
+                 
+                Calendar calFechaInicio = guardarReporteEnBD.getDatosEntrada().getFechaInicio();
+                Calendar calFechaFin = guardarReporteEnBD.getDatosEntrada().getFechaFin();
+                 
+          		ValidarFechas validarFechas = new ValidarFechas();
+         		
+          		validarFechas.setFechaInicio(calFechaInicio);
+          		validarFechas.setFechaFin(calFechaFin);
+          		validarFechas.setWSKey(WSKey);
+          		
+          		if (!this.validaciones.validarFechas(validarFechas).getValido()) {
+          			throw new RangoFechasException("ERROR: El rango de fechas introducido NO es válido");
+          		}
+          		
+         		LocalDateTime fechaInicio = LocalDateTime.ofInstant(
+     				calFechaInicio.toInstant(),
+     				calFechaInicio.getTimeZone().toZoneId()
+         		);
+         		
+         		LocalDateTime fechaFin = LocalDateTime.ofInstant(
+         				calFechaFin.toInstant(),
+         				calFechaFin.getTimeZone().toZoneId());
+         		
+         		String emailEmpresa = guardarReporteEnBD.getDatosEntrada().getEmailEmpresa();
+         		int empresaId = this.reporteRepository.obtenerIdEmpresaPorEmail(emailEmpresa);
+         		
+         		int numeroTotalFacturasEmitidas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasEmitidas();
+         		double sumaTotalImportes = guardarReporteEnBD.getDatosEntrada().getSumaTotalImportes();
+         		int numeroTotalFacturasValidas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasValidas();
+         		int numeroTotalFacturasSubsanadas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasSubsanadas();
+         		int numeroTotalFacturasAnuladas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasAnuladas();
+         		int numeroTotalFacturasInvalidas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasInvalidas();
+
+                this.reporteRepository.insertarReporte(fechaInicio, fechaFin, empresaId, numeroTotalFacturasEmitidas, sumaTotalImportes, numeroTotalFacturasValidas, numeroTotalFacturasSubsanadas, numeroTotalFacturasAnuladas, numeroTotalFacturasInvalidas);
+                 
+	            response.setMensajeSalida("Reporte de estadísticas insertado correctamente. ");
+	             
+	            return response;
+              }
         }
      
-    }
+    
     

@@ -24,6 +24,84 @@ public class ReporteRepository {
 		this.conexion = new Conexion();
 	}
 	
+	public int obtenerIdEmpresaPorEmail(String email) throws SQLException {
+	    Connection con = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        con = this.conexion.conectar();
+	        String sql = "SELECT id FROM empresas WHERE email = ?";
+	        stmt = con.prepareStatement(sql);
+	        stmt.setString(1, email);
+	        rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getInt("id");
+	        } else {
+	            return -1; // Empresa no encontrada
+	        }
+
+	    } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+	}
+
+	
+    public void insertarReporte(
+            LocalDateTime fechaInicio,
+            LocalDateTime fechaFin,
+            int empresaId,
+            int numeroTotalFacturasEmitidas,
+            double sumaTotalImportes,
+            int numeroTotalFacturasValidas,
+            int numeroTotalFacturasSubsanadas,
+            int numeroTotalFacturasAnuladas,
+            int numeroTotalFacturasInvalidas) throws SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        try {
+        	con = this.conexion.conectar();
+
+            String sql = "INSERT INTO reportes_estadisticas "
+                       + "(fecha_inicio, fecha_fin, empresa_id, numero_total_facturas_emitidas, suma_total_importes, "
+                       + "numero_total_facturas_validas, numero_total_facturas_subsanadas, numero_total_facturas_anuladas, "
+                       + "numero_total_facturas_invalidas) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            stmt = con.prepareStatement(sql);
+            stmt.setTimestamp(1, Timestamp.valueOf(fechaInicio));
+            stmt.setTimestamp(2, Timestamp.valueOf(fechaFin));
+            stmt.setInt(3, empresaId);
+            stmt.setInt(4, numeroTotalFacturasEmitidas);
+            stmt.setDouble(5, sumaTotalImportes);
+            stmt.setInt(6, numeroTotalFacturasValidas);
+            stmt.setInt(7, numeroTotalFacturasSubsanadas);
+            stmt.setInt(8, numeroTotalFacturasAnuladas);
+            stmt.setInt(9, numeroTotalFacturasInvalidas);
+
+            // 4. Ejecutar la insercion
+            int filasAfectadas = stmt.executeUpdate();
+
+        } catch (Exception e) {
+	    	e.printStackTrace();
+        	throw new SQLException(e.getMessage());
+        } finally {
+            // Cerrar recursos en el finally
+            if (stmt != null) {
+                try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
+            if (con != null) {
+                try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
+        }
+    }
+	
 	public int devolverTotalFacturasEmitidasEmpresa(String email, LocalDateTime fechaInicio, LocalDateTime fechaFin) throws SQLException {
 		Connection con = null;
         PreparedStatement stmt = null;
@@ -49,10 +127,13 @@ public class ReporteRepository {
                 return 0;
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) {  /* Ignorado intencionalmente */ }
-            try { if (con != null) con.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
 	}
 	
@@ -86,10 +167,13 @@ public class ReporteRepository {
                 return 0.0;
             }
 
-        }  finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) {  /* Ignorado intencionalmente */ }
-            try { if (con != null) con.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
 	}
 	
@@ -120,13 +204,14 @@ public class ReporteRepository {
                 return 0;
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) {  /* Ignorado intencionalmente */ }
-            try { if (con != null) con.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
 	}
-	
-	
 
 }
