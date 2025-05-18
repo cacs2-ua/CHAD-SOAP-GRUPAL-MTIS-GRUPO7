@@ -24,6 +24,34 @@ public class ReporteRepository {
 		this.conexion = new Conexion();
 	}
 	
+	public Long obtenerIdPorempresaId(Long empresaId) throws SQLException {
+	    Connection con = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        con = this.conexion.conectar();
+	        String sql = "SELECT id FROM reportes_estadisticas WHERE empresa_id = ?";
+	        stmt = con.prepareStatement(sql);
+	        stmt.setLong(1, empresaId);
+	        rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getLong("id");
+	        } else {
+	            return -1L;
+	        }
+
+	    } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+	}
+	
     public void insertarReporte(
             LocalDateTime fechaInicio,
             LocalDateTime fechaFin,

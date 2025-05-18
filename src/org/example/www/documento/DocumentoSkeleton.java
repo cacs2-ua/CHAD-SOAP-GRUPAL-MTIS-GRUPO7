@@ -48,16 +48,22 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.AreaBreakType;
 import com.itextpdf.layout.properties.TextAlignment;
 
+import ConexionDB.DocumentoRepository;
 import ConexionDB.EmpresaRepository;
+import ConexionDB.ReporteRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.SQLException;
     public class DocumentoSkeleton{
+    	private DocumentoRepository documentoRepository;
     	private EmpresaRepository empresaRepository;
+    	private ReporteRepository reporteRepository;
     	private ValidacionSkeleton validaciones;
     	
     	public DocumentoSkeleton() {
+    		this.documentoRepository = new DocumentoRepository();
     		this.empresaRepository = new EmpresaRepository();
+    		this.reporteRepository = new ReporteRepository();
     		this.validaciones = new ValidacionSkeleton();
     	}
         
@@ -261,9 +267,22 @@ import java.sql.SQLException;
 	                            .add(new Text(String.valueOf(numeroTotalFacturasInvalidas)).setFont(font).setFontSize(10))
 	                    );
 	                    
+
+	                    
 	                    document.close();
 	                
 	                    System.out.println("PDF generated at: " + rutaPDF);
+	                    
+	                    Long empresaId = (long) this.empresaRepository.obtenerIdEmpresaPorEmail(emailEmpresa);
+	                    Long reporteId = this.reporteRepository.obtenerIdPorempresaId(empresaId);
+	                    
+	                    LocalDateTime fechaCreacion = LocalDateTime.now();
+	                    
+	                    File pdfFile = new File(rutaPDF);
+	                    long tamanyo = pdfFile.length();
+	                    
+	                    this.documentoRepository.insertarDocumentoReporte(fechaCreacion, fileName, rutaPDF, tamanyo, "application/pdf", reporteId);
+	                    
 	                    response.setMensajeSalida("PDF generated at: " + rutaPDF);
 	              		
 	              		return response;
