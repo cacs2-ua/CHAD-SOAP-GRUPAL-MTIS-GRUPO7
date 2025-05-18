@@ -34,6 +34,7 @@
       		</xsd:element>
       		<xsd:element name="codigoPostal" type="xsd:string"/>
       		<xsd:element name="id" type="xsd:int"/>
+      		<xsd:element name="uuid" type="xsd:string"/>
       	</xsd:sequence>
       </xsd:complexType>
       <xsd:element name="consultarEmpresa">

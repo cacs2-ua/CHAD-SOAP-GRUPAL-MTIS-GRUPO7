@@ -14,7 +14,7 @@
       <xsd:element name="calcularDatosReporteResponse">
         <xsd:complexType>
           <xsd:sequence>
-          	<xsd:element name="datosReporte" type="tns:ReporteType" />
+          	<xsd:element name="datosReporte" type="tns:ReporteType" maxOccurs="1" minOccurs="1"/>
           	<xsd:element name="mensajeSalida" type="xsd:string"></xsd:element>
           </xsd:sequence>
         </xsd:complexType>
@@ -88,7 +88,7 @@
       		<xsd:sequence>
 
       			<xsd:element name="datosReporte"
-      				type="tns:ReporteType">
+      				type="tns:ReporteType" maxOccurs="1" minOccurs="1">
       			</xsd:element>
       			<xsd:element name="mensajeSalida" type="xsd:string"></xsd:element>
       		</xsd:sequence>

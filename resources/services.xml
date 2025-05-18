@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><!-- This file was auto-generated from WSDL --><!-- by the Apache Axis2 version: 1.6.3  Built on : Jun 27, 2015 (11:17:49 BST) --><serviceGroup>
-    <service name="Validacion">
+    <service name="Reporte">
         <messageReceivers>
-            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.example.www.validacion.ValidacionMessageReceiverInOut"/>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.example.www.reporte.ReporteMessageReceiverInOut"/>
         </messageReceivers>
-        <parameter name="ServiceClass">org.example.www.validacion.ValidacionSkeleton</parameter>
+        <parameter name="ServiceClass">org.example.www.reporte.ReporteSkeleton</parameter>
         <parameter name="useOriginalwsdl">true</parameter>
         <parameter name="modifyUserWSDLPortAddress">true</parameter>
-        <operation name="validarFechas" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Validacion/">
-            <actionMapping>http://www.example.org/Validacion/validarFechas</actionMapping>
-            <outputActionMapping>http://www.example.org/Validacion/Validacion/validarFechasResponse</outputActionMapping>
+        <operation name="calcularDatosReporte" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Reporte/">
+            <actionMapping>http://www.example.org/Reporte/calcularDatosReporte</actionMapping>
+            <outputActionMapping>http://www.example.org/Reporte/Reporte/calcularDatosReporteResponse</outputActionMapping>
+        </operation>
+        <operation name="calcularDatosReporteGlobal" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Reporte/">
+            <actionMapping>http://www.example.org/Reporte/calcularDatosReporteGlobal</actionMapping>
+            <outputActionMapping>http://www.example.org/Reporte/Reporte/calcularDatosReporteGlobalResponse</outputActionMapping>
+        </operation>
+        <operation name="guardarReporteEnBD" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Reporte/">
+            <actionMapping>http://www.example.org/Reporte/guardarReporteEnBD</actionMapping>
+            <outputActionMapping>http://www.example.org/Reporte/Reporte/guardarReporteEnBDResponse</outputActionMapping>
         </operation>
     </service>
 </serviceGroup>

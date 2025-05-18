@@ -100,8 +100,17 @@ import ConexionDB.ReporteRepository;
              		datosReporte.setNumeroTotalFacturasInvalidas(numeroTotalFacturasInvalidas);
              		
              		response.setDatosReporte(datosReporte);
-             		response.setMensajeSalida("Datos del reporte de estadísticas calculados correctamente"
-             				+ "para la empresa con email: " + email);
+             		
+             		if (datosReporte.getNumeroTotalFacturasEmitidas() == 0) {
+                 		response.setMensajeSalida("La empresa con email: " + email + " no ha realizado ninguna facturación"
+                 				+ " en el periodo de tiempo seleccionado.");
+             		}
+             		
+             		else {
+	             		response.setMensajeSalida("Datos del reporte de estadísticas calculados correctamente"
+	             				+ "para la empresa con email: " + email);
+             		}
+
              		
              		return response;
 
