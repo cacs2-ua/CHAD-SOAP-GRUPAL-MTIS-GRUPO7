@@ -52,8 +52,8 @@ import exception.WSKeyNoValidaException;
             		 EmpresaType empresaObtenida = this.empresaRepository.consultarEmpresa(email);
             		 
                      response.setEmpresa(empresaObtenida);
-                     response.setMensajeSalida("OK: La empresa con email: " + email
-                     		+ "ha sido consultado correctamente. ");
+                     response.setMensajeSalida("OK: La empresa con email: '" + email
+                     		+ "' ha sido consultada correctamente. ");
                      return response;
         }
      

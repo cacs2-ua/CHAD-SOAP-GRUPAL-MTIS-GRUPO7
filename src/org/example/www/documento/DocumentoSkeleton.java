@@ -144,6 +144,12 @@ import java.sql.SQLException;
               			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/normal/" + fileName;
               		    tituloReporte = "STATISTICS REPORT";
               		}
+              		
+                    File pdfFile = new File(rutaPDF);
+                    LocalDateTime fechaCreacion = LocalDateTime.now();
+                    
+                    this.documentoRepository.insertarDocumentoReporte(fechaCreacion, fileName, rutaPDF, 0L, "application/pdf", reporteId);
+                    
 
 
               		// Crear el documento PDF
@@ -278,12 +284,9 @@ import java.sql.SQLException;
 	                    
 	                    document.close();
 	                    
-	                    LocalDateTime fechaCreacion = LocalDateTime.now();
-	                    
-	                    File pdfFile = new File(rutaPDF);
 	                    long tamanyo = pdfFile.length();
 	                    
-	                    this.documentoRepository.insertarDocumentoReporte(fechaCreacion, fileName, rutaPDF, tamanyo, "application/pdf", reporteId);
+	                    this.documentoRepository.modificarTamanyoPorIdReporte(reporteId, tamanyo);
 	                    
 	                    response.setMensajeSalida("PDF registrado correctamente y almacenado en: " + rutaPDF);
 	              		

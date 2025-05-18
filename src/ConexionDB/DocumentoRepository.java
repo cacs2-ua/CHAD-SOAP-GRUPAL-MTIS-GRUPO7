@@ -94,6 +94,37 @@ public class DocumentoRepository {
             try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
     }
+    
+    public void modificarTamanyoPorIdReporte(Long reporteEstadisticasId, Long nuevoTamanyo) throws SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = this.conexion.conectar();
+
+            String sql = "UPDATE documentos "
+                       + "SET tamanyo = ? "
+                       + "WHERE reporte_estadisticas_id = ?";
+
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, nuevoTamanyo);
+            stmt.setLong(2, reporteEstadisticasId);
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                throw new NoSuchElementException("No se encontró ningún documento con ese reporte_estadisticas_id.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+    }
+
 
 
 }
