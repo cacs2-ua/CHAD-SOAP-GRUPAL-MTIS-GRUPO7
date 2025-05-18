@@ -192,7 +192,7 @@ import java.sql.SQLException;
               		);
 
               		
-              		// T�tulo del documento seg�n tipo de empresa
+              		// T tulo del documento seg n tipo de empresa
               		document.add(new Paragraph(tituloReporte)
               		        .setFont(bold)
               		        .setFontSize(14)
@@ -273,8 +273,7 @@ import java.sql.SQLException;
 	                
 	                    System.out.println("PDF generated at: " + rutaPDF);
 	                    
-	                    Long empresaId = (long) this.empresaRepository.obtenerIdEmpresaPorEmail(emailEmpresa);
-	                    Long reporteId = this.reporteRepository.obtenerIdPorempresaId(empresaId);
+	                    Long reporteId = (long) generarPDF.getDatosReporte().getReporteId();
 	                    
 	                    LocalDateTime fechaCreacion = LocalDateTime.now();
 	                    

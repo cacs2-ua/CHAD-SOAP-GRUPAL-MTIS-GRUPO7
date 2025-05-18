@@ -20,7 +20,7 @@
         /* This type was generated from the piece of schema that had
                 name = ReporteType
                 Namespace URI = http://www.example.org/Documento/
-                Namespace Prefix = ns4
+                Namespace Prefix = ns2
                 */
             
 
@@ -294,6 +294,36 @@
                                }
                             
 
+                        /**
+                        * field for ReporteId
+                        */
+
+                        
+                                    protected int localReporteId ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getReporteId(){
+                               return localReporteId;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ReporteId
+                               */
+                               public void setReporteId(int param){
+                            
+                                            this.localReporteId=param;
+                                       
+
+                               }
+                            
+
      
      
         /**
@@ -485,6 +515,19 @@
                                     
                                    xmlWriter.writeEndElement();
                              
+                                    namespace = "";
+                                    writeStartElement(null, namespace, "reporteId", xmlWriter);
+                             
+                                               if (localReporteId==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("reporteId cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localReporteId));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             
                     xmlWriter.writeEndElement();
                
 
@@ -492,7 +535,7 @@
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://www.example.org/Documento/")){
-                return "ns4";
+                return "ns2";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -733,6 +776,12 @@
                                            throw new org.apache.axis2.databinding.ADBException("emailEmpresa cannot be null!!");
                                         }
                                     
+                                      elementList.add(new javax.xml.namespace.QName("",
+                                                                      "reporteId"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localReporteId));
+                            
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -1023,6 +1072,31 @@
                                     
                                               object.setEmailEmpresa(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                                }
+                            
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("","reporteId").equals(reader.getName())){
+                                
+                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"reporteId" +"  cannot be null");
+                                    }
+                                    
+
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setReporteId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
                                               
                                         reader.next();
                                     
