@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Notificacion" targetNamespace="http://www.example.org/Notificacion/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/Notificacion/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Notificacion/">
+      <xsd:element name="Enviar">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="datosEntrada" type="tns:EnviarType"/>
+
+
+
+          	<xsd:element name="WSKey" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="EnviarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="mensajeSalida" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:complexType name="EnviarType">
+      	<xsd:sequence>
+      		<xsd:element name="from" type="xsd:string"/>
+      		<xsd:element name="to" type="xsd:string"/>
+      		<xsd:element name="subject" type="xsd:string"/>
+      		<xsd:element name="text" type="xsd:string"/>
+      	</xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="EnviarResponse">
+    <wsdl:part name="parameters" element="tns:EnviarResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EnviarRequest">
+    <wsdl:part name="parameters" element="tns:Enviar">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Notificacion">
+    <wsdl:operation name="Enviar">
+      <wsdl:input message="tns:EnviarRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:EnviarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NotificacionSOAP" type="tns:Notificacion">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Enviar">
+      <soap:operation soapAction="http://www.example.org/Notificacion/Enviar"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Notificacion">
+    <wsdl:port name="NotificacionSOAP" binding="tns:NotificacionSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Documento" targetNamespace="http://www.example.org/Documento/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/Documento/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Documento/">
+      <xsd:element name="generarPDF">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="datosReporte" type="tns:ReporteType"/>
+          	<xsd:element name="WSKey" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="generarPDFResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="mensajeSalida" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:complexType name="ReporteType">
+      	<xsd:sequence>
+      		<xsd:element name="fechaInicio" type="xsd:dateTime"/>
+      		<xsd:element name="fechaFin" type="xsd:dateTime"/>
+      		<xsd:element name="numeroTotalFacturasEmitidas" type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="sumaTotalImportes" type="xsd:double"/>
+      		<xsd:element name="numeroTotalFacturasValidas" type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalFacturasSubsanadas" type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalFacturasAnuladas" type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalFacturasInvalidas" type="xsd:int">
+      		</xsd:element>
+
+      		<xsd:element name="reporteId" type="xsd:int"/>
+      	</xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="generarPDFRequest">
+    <wsdl:part name="parameters" element="tns:generarPDF">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generarPDFResponse">
+    <wsdl:part name="parameters" element="tns:generarPDFResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Documento">
+    <wsdl:operation name="generarPDF">
+      <wsdl:input message="tns:generarPDFRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:generarPDFResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DocumentoSOAP" type="tns:Documento">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="generarPDF">
+      <soap:operation soapAction="http://www.example.org/Documento/generarPDF"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Documento">
+    <wsdl:port name="DocumentoSOAP" binding="tns:DocumentoSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
