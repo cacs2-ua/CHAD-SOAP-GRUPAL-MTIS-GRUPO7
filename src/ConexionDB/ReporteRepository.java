@@ -24,63 +24,6 @@ public class ReporteRepository {
 		this.conexion = new Conexion();
 	}
 	
-	public int obtenerIdEmpresaPorEmail(String email) throws SQLException {
-	    Connection con = null;
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
-
-	    try {
-	        con = this.conexion.conectar();
-	        String sql = "SELECT id FROM empresas WHERE email = ?";
-	        stmt = con.prepareStatement(sql);
-	        stmt.setString(1, email);
-	        rs = stmt.executeQuery();
-
-	        if (rs.next()) {
-	            return rs.getInt("id");
-	        } else {
-	            return -1; // Empresa no encontrada
-	        }
-
-	    } catch (Exception e) {
-            e.printStackTrace();
-            throw new SQLException(e.getMessage());
-        } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
-	}
-	
-	public String obtenerEmailEmpresaPorIdEmpresa(Long id) throws SQLException {
-	    Connection con = null;
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
-
-	    try {
-	        con = this.conexion.conectar();
-	        String sql = "SELECT email FROM empresas WHERE id = ?";
-	        stmt = con.prepareStatement(sql);
-	        stmt.setLong(1, id);
-	        rs = stmt.executeQuery();
-
-	        if (rs.next()) {
-	            return rs.getString("email");
-	        } else {
-	            return "Empresa no encontrada";
-	        }
-
-	    } catch (Exception e) {
-            e.printStackTrace();
-            throw new SQLException(e.getMessage());
-        } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
-	}
-
-	
     public void insertarReporte(
             LocalDateTime fechaInicio,
             LocalDateTime fechaFin,
@@ -118,14 +61,14 @@ public class ReporteRepository {
 
         } catch (Exception e) {
 	    	e.printStackTrace();
-        	throw new SQLException(e.getMessage());
+        	throw e;
         } finally {
             // Cerrar recursos en el finally
             if (stmt != null) {
-                try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                try { stmt.close(); } catch (Exception e) { e.printStackTrace(); }
             }
             if (con != null) {
-                try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
+                try { con.close(); } catch (Exception e) { e.printStackTrace(); }
             }
         }
     }
@@ -157,11 +100,11 @@ public class ReporteRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 	}
 	
@@ -197,11 +140,11 @@ public class ReporteRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 	}
 	
@@ -234,11 +177,11 @@ public class ReporteRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 	}
 	
@@ -265,11 +208,11 @@ public class ReporteRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 	}
 	
@@ -301,11 +244,11 @@ public class ReporteRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 	}
 	
@@ -334,11 +277,11 @@ public class ReporteRepository {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 	}
 

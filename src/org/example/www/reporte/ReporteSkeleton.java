@@ -27,10 +27,12 @@ import ConexionDB.ReporteRepository;
     public class ReporteSkeleton{
     	
     	private ReporteRepository reporteRepository;
+    	private EmpresaRepository empresaRepository;
     	private ValidacionSkeleton validaciones;
     	
     	public ReporteSkeleton() {
     		this.reporteRepository = new ReporteRepository();
+    		this.empresaRepository = new EmpresaRepository();
     		this.validaciones = new ValidacionSkeleton();
     	}
          
@@ -40,14 +42,14 @@ import ConexionDB.ReporteRepository;
                                      * @param calcularDatosReporte 
              * @return calcularDatosReporteResponse 
          * @throws WSKeyNoValidaException 
-         * @throws SQLException 
          * @throws RangoFechasException 
+         * @throws SQLException 
          */
         
                  public org.example.www.reporte.CalcularDatosReporteResponse calcularDatosReporte
                   (
                   org.example.www.reporte.CalcularDatosReporte calcularDatosReporte
-                  ) throws WSKeyNoValidaException, SQLException, RangoFechasException
+                  ) throws WSKeyNoValidaException, RangoFechasException, SQLException
             {
                 	CalcularDatosReporteResponse response = new CalcularDatosReporteResponse();
                 	 
@@ -170,7 +172,7 @@ import ConexionDB.ReporteRepository;
               		
               		ReporteType datosReporte = new ReporteType();
               		
-              		String emailEmpresaPrincipal = this.reporteRepository.obtenerEmailEmpresaPorIdEmpresa(1L);
+              		String emailEmpresaPrincipal = this.empresaRepository.obtenerEmailEmpresaPorIdEmpresa(1L);
               		
               		datosReporte.setFechaInicio(calFechaInicio);
               		datosReporte.setFechaFin(calFechaFin);
@@ -239,7 +241,7 @@ import ConexionDB.ReporteRepository;
          				calFechaFin.getTimeZone().toZoneId());
          		
          		String emailEmpresa = guardarReporteEnBD.getDatosEntrada().getEmailEmpresa();
-         		int empresaId = this.reporteRepository.obtenerIdEmpresaPorEmail(emailEmpresa);
+         		int empresaId = this.empresaRepository.obtenerIdEmpresaPorEmail(emailEmpresa);
          		
          		int numeroTotalFacturasEmitidas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasEmitidas();
          		double sumaTotalImportes = guardarReporteEnBD.getDatosEntrada().getSumaTotalImportes();
