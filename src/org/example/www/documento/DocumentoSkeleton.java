@@ -118,25 +118,26 @@ import java.sql.SQLException;
               			
               		
               		new File("src/resources/reports/global").mkdirs();
-              		new File("src/resources/reports/local").mkdirs();
+              		new File("src/resources/reports/normal").mkdirs();
 
               		String emailEmpresaPrincipal = this.empresaRepository.obtenerEmailEmpresaPorIdEmpresa(1L).trim();
 
               		String rutaBase;
+              		String rutaPDF;
               		String tituloReporte;
-
-              		if (emailEmpresa.equals(emailEmpresaPrincipal)) {
-              		    rutaBase = "src/resources/reports/global/";
-              		    tituloReporte = "GLOBAL STATISTICS REPORT";
-              		} else {
-              		    rutaBase = "src/resources/reports/specific/";
-              		    tituloReporte = "LOCAL STATISTICS REPORT";
-              		}
-
+              		
               		String uuid = UUID.randomUUID().toString();
               		String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
               		String fileName = "report_" + uuid + "_" + timestamp + ".pdf";
-              		String rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/" + fileName;
+
+              		if (emailEmpresa.equals(emailEmpresaPrincipal)) {
+              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/global/" + fileName;
+              		    tituloReporte = "GLOBAL STATISTICS REPORT";
+              		} else {
+              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/normal/" + fileName;
+              		    tituloReporte = "STATISTICS REPORT";
+              		}
+
 
               		// Crear el documento PDF
               		PdfWriter pdfWriter = new PdfWriter(rutaPDF);
