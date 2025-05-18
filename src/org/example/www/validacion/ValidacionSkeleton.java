@@ -23,25 +23,19 @@ import exception.WSKeyNoValidaException;
          * 
                                      * @param validarFechas 
              * @return validarFechasResponse 
+         * @throws WSKeyNoValidaException 
          */
         
                  public org.example.www.validacion.ValidarFechasResponse validarFechas
                   (
                   org.example.www.validacion.ValidarFechas validarFechas
-                  )
+                  ) throws WSKeyNoValidaException
             {
-                	 ValidarFechasResponse response = new ValidarFechasResponse();
+                	ValidarFechasResponse response = new ValidarFechasResponse();
 
-             		try {
-                		String WSKey = validarFechas.getWSKey();
-                        
-                        Utils.verificarWSKey(WSKey);
-            		} catch (Exception e) {
-            			response.setValido(false);
-            	        response.setMensajeSalida(e.getMessage());
-            	        return response;
-            		}
-             		
+            		String WSKey = validarFechas.getWSKey();
+                    
+                    Utils.verificarWSKey(WSKey);
              		
              		Calendar calFechaInicio = validarFechas.getFechaInicio();
              		LocalDateTime fechaInicio = LocalDateTime.ofInstant(
@@ -66,7 +60,6 @@ import exception.WSKeyNoValidaException;
              		}
              		
              		return response;
-
         }
      
     }

@@ -56,13 +56,10 @@ public class EmpresaRepository {
             empresa.setCodigoPostal(rs.getString("codigo_postal"));
             
             return empresa;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException(e.getMessage());
-        }finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) {  /* Ignorado intencionalmente */ }
+            try { if (con != null) con.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
         }
 		
 	}
@@ -107,13 +104,10 @@ public class EmpresaRepository {
             
             return empresas;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException(e.getMessage());
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs != null) rs.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) {  /* Ignorado intencionalmente */ }
+            try { if (con != null) con.close(); } catch (SQLException e) { /* Ignorado intencionalmente */ }
         }
 		
 	}

@@ -42,25 +42,19 @@ import exception.WSKeyNoValidaException;
                   ) throws WSKeyNoValidaException, SQLException
             {
                 	 ConsultarEmpresaResponse response = new ConsultarEmpresaResponse();
-                	 
-                	 try {
-                		 String WSKey = consultarEmpresa.getWSKey();
-                		 
-                		 Utils.verificarWSKey(WSKey);
-                		 
-                		 String email = consultarEmpresa.getEmailEmpresa();
-                		 
-                		 EmpresaType empresaObtenida = this.empresaRepository.consultarEmpresa(email);
-                		 
-                         response.setEmpresa(empresaObtenida);
-                         response.setMensajeSalida("OK: La empresa con email: " + email
-                         		+ "ha sido consultado correctamente. ");
-                         return response;
-                	 } catch (Exception e) {
-              			response.setMensajeSalida(e.getMessage());
-             			return response;
-             		}
-                
+
+            		 String WSKey = consultarEmpresa.getWSKey();
+            		 
+            		 Utils.verificarWSKey(WSKey);
+            		 
+            		 String email = consultarEmpresa.getEmailEmpresa();
+            		 
+            		 EmpresaType empresaObtenida = this.empresaRepository.consultarEmpresa(email);
+            		 
+                     response.setEmpresa(empresaObtenida);
+                     response.setMensajeSalida("OK: La empresa con email: " + email
+                     		+ "ha sido consultado correctamente. ");
+                     return response;
         }
      
          
@@ -69,29 +63,27 @@ import exception.WSKeyNoValidaException;
          * 
                                      * @param consultarTodasEmpresas 
              * @return consultarTodasEmpresasResponse 
+         * @throws WSKeyNoValidaException 
+         * @throws SQLException 
          */
         
                  public org.example.www.empresa.ConsultarTodasEmpresasResponse consultarTodasEmpresas
                   (
                   org.example.www.empresa.ConsultarTodasEmpresas consultarTodasEmpresas
-                  )
+                  ) throws WSKeyNoValidaException, SQLException
             {
-                	 ConsultarTodasEmpresasResponse response = new ConsultarTodasEmpresasResponse();
-                	 
-                	 try {
-                     	String WSKey = consultarTodasEmpresas.getWSKey();
-                     	
-                     	Utils.verificarWSKey(WSKey);
-                     	
-                     	List<EmpresaType> empresas = this.empresaRepository.consultarTodasEmpresas();
-                     	response.setEmpresas(empresas.toArray(new EmpresaType[0]));
-                		response.setMensajeSalida("Se han obtenido todos los datos de todas las empresas exitosamente.");
+                	ConsultarTodasEmpresasResponse response = new ConsultarTodasEmpresasResponse();
+            	 
+                 	String WSKey = consultarTodasEmpresas.getWSKey();
+                 	
+                 	Utils.verificarWSKey(WSKey);
+                 	
+                 	List<EmpresaType> empresas = this.empresaRepository.consultarTodasEmpresas();
+                 	response.setEmpresas(empresas.toArray(new EmpresaType[0]));
+            		response.setMensajeSalida("Se han obtenido todos los datos de todas las empresas exitosamente.");
 
-                		return response;
-                	 } catch (Exception e) {
-              			response.setMensajeSalida(e.getMessage());
-            			return response;
-            		}
+            		return response;
+                	 
         }
      
     }
