@@ -10,7 +10,8 @@
      *  DocumentoSkeleton java skeleton for the axisService
      */
     
-    import java.time.LocalDateTime;
+    import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -26,7 +27,7 @@ import java.util.UUID;
 import java.io.File;
 
 import java.time.format.DateTimeFormatter;
-
+import java.time.format.TextStyle;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.events.Event;
@@ -128,7 +129,7 @@ import java.sql.SQLException;
               		
               		String uuid = UUID.randomUUID().toString();
               		String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-              		String fileName = "report_" + uuid + "_" + timestamp + ".pdf";
+              		String fileName = uuid + "_" + timestamp + ".pdf";
 
               		if (emailEmpresa.equals(emailEmpresaPrincipal)) {
               			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/global/" + fileName;
@@ -146,8 +147,46 @@ import java.sql.SQLException;
 
               		PdfFont font  = PdfFontFactory.createFont(StandardFonts.HELVETICA);
               		PdfFont bold  = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
+              		
+                    pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new IEventHandler() {
+                        @Override
+                        public void handleEvent(Event event) {
+                            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
+                            PdfPage page = docEvent.getPage();
+                            int pageNumber = docEvent.getDocument().getPageNumber(page);
+                            Rectangle pageSize = page.getPageSize();
+                            PdfCanvas pdfCanvas = new PdfCanvas(page.newContentStreamAfter(), page.getResources(), docEvent.getDocument());
+                            // AquÃ­ usamos sÃ³lo pdfCanvas y pageSize
+                            Canvas canvas = new Canvas(pdfCanvas, pageSize);
+                            canvas.setFont(font)
+                                    .setFontSize(10)
+                                    .showTextAligned(
+                                            String.valueOf(pageNumber),
+                                            pageSize.getRight() - 36,
+                                            pageSize.getBottom() + 15,
+                                            TextAlignment.RIGHT
+                                    );
+                            canvas.close();
+                        }
+                    });
 
-              		// Título del documento según tipo de empresa
+              		
+              	// Encabezado en inglÃ©s: "MTIS Group7, May 18, 2025 - 16:35"
+              		LocalDateTime now = LocalDateTime.now();
+              		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy - HH:mm", Locale.ENGLISH);
+              		String formattedDate = now.format(formatter);
+
+              		String header = "Electronic invoicing - MTIS Group7, " + formattedDate;
+
+              		document.add(new Paragraph(header)
+              		        .setFont(font)
+              		        .setFontSize(10)
+              		        .setTextAlignment(TextAlignment.RIGHT)
+              		        .setMarginBottom(10)
+              		);
+
+              		
+              		// Tï¿½tulo del documento segï¿½n tipo de empresa
               		document.add(new Paragraph(tituloReporte)
               		        .setFont(bold)
               		        .setFontSize(14)
@@ -156,69 +195,68 @@ import java.sql.SQLException;
               		);
 
 	                    
-	                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
 	                    String fechaInicioStr = fechaInicio.format(formatter);
 	                    String fechaFinStr = fechaFin.format(formatter);
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Start date: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(fechaInicioStr).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("End date: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(fechaFinStr).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total number of issued invoices: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(numeroTotalFacturasEmitidas)).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total sum of all amounts (including VAT): ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(sumaTotalImportes)).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total number of valid invoices (corrected or not corrected): ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(numeroTotalFacturasValidas + numeroTotalFacturasSubsanadas)).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total number of valid and not corrected invoices: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(numeroTotalFacturasValidas)).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total number of valid and corrected invoices: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(numeroTotalFacturasSubsanadas)).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total number of canceled invoices: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(numeroTotalFacturasAnuladas)).setFont(font).setFontSize(10))
 	                    );
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)
-	                            .add(new Text("• ").setFont(font).setFontSize(10))
+	                            .add(new Text("- ").setFont(font).setFontSize(10))
 	                            .add(new Text("Total number of invalid invoices: ").setFont(bold).setFontSize(10))
 	                            .add(new Text(String.valueOf(numeroTotalFacturasInvalidas)).setFont(font).setFontSize(10))
 	                    );
