@@ -51,6 +51,34 @@ public class ReporteRepository {
             try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
 	}
+	
+	public String obtenerEmailEmpresaPorIdEmpresa(Long id) throws SQLException {
+	    Connection con = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        con = this.conexion.conectar();
+	        String sql = "SELECT email FROM empresas WHERE id = ?";
+	        stmt = con.prepareStatement(sql);
+	        stmt.setLong(1, id);
+	        rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getString("email");
+	        } else {
+	            return "Empresa no encontrada";
+	        }
+
+	    } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+	}
 
 	
     public void insertarReporte(
@@ -149,7 +177,7 @@ public class ReporteRepository {
                     + "JOIN empresas e ON f.empresa_id = e.id "
                     + "WHERE e.email = ? "
                     + "and f.fecha_emision >= ? "
-                    + "and f.fecha_emision <= ? ";
+                    + "and f.fecha_emision <= ?";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setTimestamp(2, Timestamp.valueOf(fechaInicio));
@@ -190,12 +218,112 @@ public class ReporteRepository {
                     + "WHERE e.email = ? "
                     + "and f.fecha_emision >= ? "
                     + "and f.fecha_emision <= ? "
-                    + "AND f.estado = ?";
+                    + "and f.estado = ?";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setTimestamp(2, Timestamp.valueOf(fechaInicio));
             stmt.setTimestamp(3, Timestamp.valueOf(fechaFin));
             stmt.setString(4, estado);
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("total");
+            } else {
+                return 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+	}
+	
+	public int devolverTotalFacturasEmitidasGlobal(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws SQLException {
+		Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+        	con = this.conexion.conectar();
+            String sql = "SELECT COUNT(DISTINCT f.id) AS total "
+                    + "FROM facturas f WHERE f.fecha_emision >= ?  " 
+                    + "and f.fecha_emision <= ? ";
+            stmt = con.prepareStatement(sql);
+            stmt.setTimestamp(1, Timestamp.valueOf(fechaInicio));
+            stmt.setTimestamp(2, Timestamp.valueOf(fechaFin));
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("total");
+            } else {
+                return 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+	}
+	
+	public double devolverSumaTotalImportesGlobal(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws SQLException {
+		Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+        	con = this.conexion.conectar();
+            String sql = "SELECT SUM(f.base_imponible * (1 + f.iva)) AS total "
+                    + "FROM facturas f WHERE f.fecha_emision >= ? "
+                    + "and f.fecha_emision <= ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setTimestamp(1, Timestamp.valueOf(fechaInicio));
+            stmt.setTimestamp(2, Timestamp.valueOf(fechaFin));
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                double rawTotal = rs.getDouble("total");
+                if (rs.wasNull()) return 0.0;
+
+                return new BigDecimal(rawTotal)
+                       .setScale(2, RoundingMode.HALF_UP)
+                       .doubleValue();
+            } else {
+                return 0.0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+	}
+	
+	public int devolverTotalFacturasGlobalPorEstado(LocalDateTime fechaInicio, LocalDateTime fechaFin, String estado) throws SQLException {
+		Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+        	con = this.conexion.conectar();
+            String sql = "SELECT COUNT(DISTINCT f.id) AS total "
+                    + "FROM facturas f WHERE f.fecha_emision >= ? "
+                    + "and f.fecha_emision <= ? "
+                    + "and f.estado = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setTimestamp(1, Timestamp.valueOf(fechaInicio));
+            stmt.setTimestamp(2, Timestamp.valueOf(fechaFin));
+            stmt.setString(3, estado);
             rs = stmt.executeQuery();
             
             if (rs.next()) {

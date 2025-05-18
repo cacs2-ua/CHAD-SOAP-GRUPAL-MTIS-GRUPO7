@@ -122,15 +122,77 @@ import ConexionDB.ReporteRepository;
          * 
                                      * @param calcularDatosReporteGlobal 
              * @return calcularDatosReporteGlobalResponse 
+         * @throws RangoFechasException 
+         * @throws WSKeyNoValidaException 
+         * @throws SQLException 
          */
         
                  public org.example.www.reporte.CalcularDatosReporteGlobalResponse calcularDatosReporteGlobal
                   (
                   org.example.www.reporte.CalcularDatosReporteGlobal calcularDatosReporteGlobal
-                  )
+                  ) throws WSKeyNoValidaException, RangoFechasException, SQLException
             {
-                //TODO : fill this with the necessary business logic
-                throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#calcularDatosReporteGlobal");
+                	CalcularDatosReporteGlobalResponse response = new CalcularDatosReporteGlobalResponse();
+               	 
+             		String WSKey = calcularDatosReporteGlobal.getWSKey();
+             		 
+              		Utils.verificarWSKey(WSKey);
+              		 
+               		Calendar calFechaInicio = calcularDatosReporteGlobal.getFechaInicio();
+               		
+              		LocalDateTime fechaInicio = LocalDateTime.ofInstant(
+          				calFechaInicio.toInstant(),
+          				calFechaInicio.getTimeZone().toZoneId()
+              		);
+              		
+              		Calendar calFechaFin = calcularDatosReporteGlobal.getFechaFin();
+              		
+              		LocalDateTime fechaFin = LocalDateTime.ofInstant(
+              				calFechaFin.toInstant(),
+              				calFechaFin.getTimeZone().toZoneId());
+              		
+              		ValidarFechas validarFechas = new ValidarFechas();
+              		
+              		validarFechas.setFechaInicio(calFechaInicio);
+              		validarFechas.setFechaFin(calFechaFin);
+              		validarFechas.setWSKey(WSKey);
+              		
+              		if (!this.validaciones.validarFechas(validarFechas).getValido()) {
+              			throw new RangoFechasException("ERROR: El rango de fechas introducido NO es válido");
+              		}
+              		
+              		int numeroTotalFacturasEmitidas = this.reporteRepository.devolverTotalFacturasEmitidasGlobal(fechaInicio, fechaFin);
+              		double sumaTotalImportes = this.reporteRepository.devolverSumaTotalImportesGlobal(fechaInicio, fechaFin);
+              		int numeroTotalFacturasValidas = this.reporteRepository.devolverTotalFacturasGlobalPorEstado(fechaInicio, fechaFin, "VALIDA");
+              		int numeroTotalFacturasSubsanadas = this.reporteRepository.devolverTotalFacturasGlobalPorEstado(fechaInicio, fechaFin, "RECTIFICADA");
+              		int numeroTotalFacturasAnuladas = this.reporteRepository.devolverTotalFacturasGlobalPorEstado(fechaInicio, fechaFin, "ANULADA");
+              		int numeroTotalFacturasInvalidas = this.reporteRepository.devolverTotalFacturasGlobalPorEstado(fechaInicio, fechaFin, "INVALIDA");
+              		
+              		ReporteType datosReporte = new ReporteType();
+              		
+              		String emailEmpresaPrincipal = this.reporteRepository.obtenerEmailEmpresaPorIdEmpresa(1L);
+              		
+              		datosReporte.setFechaInicio(calFechaInicio);
+              		datosReporte.setFechaFin(calFechaFin);
+              		datosReporte.setEmailEmpresa(emailEmpresaPrincipal);
+              		datosReporte.setNumeroTotalFacturasEmitidas(numeroTotalFacturasEmitidas);
+              		datosReporte.setSumaTotalImportes(sumaTotalImportes);
+              		datosReporte.setNumeroTotalFacturasValidas(numeroTotalFacturasValidas);
+              		datosReporte.setNumeroTotalFacturasSubsanadas(numeroTotalFacturasSubsanadas);
+              		datosReporte.setNumeroTotalFacturasAnuladas(numeroTotalFacturasAnuladas);
+              		datosReporte.setNumeroTotalFacturasInvalidas(numeroTotalFacturasInvalidas);
+              		
+              		response.setDatosReporte(datosReporte);
+              		
+              		if (datosReporte.getNumeroTotalFacturasEmitidas() == 0) {
+                  		response.setMensajeSalida("Aún no se ha realizado ninguna facturación dentro de la aplicación.");
+              		}
+              		
+              		else {
+ 	             		response.setMensajeSalida("Las estadisticas globales han sido calculadas exitosamente.");
+              		}
+              		
+              		return response;
         }
      
          
