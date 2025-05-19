@@ -294,36 +294,6 @@
                                }
                             
 
-                        /**
-                        * field for NumeroTotalReportesCreados
-                        */
-
-                        
-                                    protected int localNumeroTotalReportesCreados ;
-                                
-
-                           /**
-                           * Auto generated getter method
-                           * @return int
-                           */
-                           public  int getNumeroTotalReportesCreados(){
-                               return localNumeroTotalReportesCreados;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param NumeroTotalReportesCreados
-                               */
-                               public void setNumeroTotalReportesCreados(int param){
-                            
-                                            this.localNumeroTotalReportesCreados=param;
-                                       
-
-                               }
-                            
-
      
      
         /**
@@ -512,19 +482,6 @@
                                                    xmlWriter.writeCharacters(localEmailEmpresa);
                                             
                                           }
-                                    
-                                   xmlWriter.writeEndElement();
-                             
-                                    namespace = "";
-                                    writeStartElement(null, namespace, "numeroTotalReportesCreados", xmlWriter);
-                             
-                                               if (localNumeroTotalReportesCreados==java.lang.Integer.MIN_VALUE) {
-                                           
-                                                         throw new org.apache.axis2.databinding.ADBException("numeroTotalReportesCreados cannot be null!!");
-                                                      
-                                               } else {
-                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumeroTotalReportesCreados));
-                                               }
                                     
                                    xmlWriter.writeEndElement();
                              
@@ -776,12 +733,6 @@
                                            throw new org.apache.axis2.databinding.ADBException("emailEmpresa cannot be null!!");
                                         }
                                     
-                                      elementList.add(new javax.xml.namespace.QName("",
-                                                                      "numeroTotalReportesCreados"));
-                                 
-                                elementList.add(
-                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumeroTotalReportesCreados));
-                            
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -1072,31 +1023,6 @@
                                     
                                               object.setEmailEmpresa(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
-                                              
-                                        reader.next();
-                                    
-                              }  // End of if for expected property start element
-                                
-                                else{
-                                    // A start element we are not expecting indicates an invalid parameter was passed
-                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
-                                }
-                            
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("","numeroTotalReportesCreados").equals(reader.getName())){
-                                
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"numeroTotalReportesCreados" +"  cannot be null");
-                                    }
-                                    
-
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setNumeroTotalReportesCreados(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
                                               
                                         reader.next();
                                     

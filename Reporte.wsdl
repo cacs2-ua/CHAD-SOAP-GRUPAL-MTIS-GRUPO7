@@ -71,8 +71,7 @@
       		<xsd:element name="numeroTotalFacturasInvalidas"
       			type="xsd:int">
       		</xsd:element>
-      		<xsd:element name="emailEmpresa" type="xsd:string"></xsd:element>
-      		<xsd:element name="numeroTotalReportesCreados" type="xsd:int"></xsd:element>
+      		<xsd:element name="emailEmpresa" type="xsd:string"></xsd:element>
       	</xsd:sequence>
       </xsd:complexType>
       <xsd:element name="calcularDatosReporteGlobal">
@@ -93,6 +92,7 @@
       				type="tns:ReporteType" maxOccurs="1" minOccurs="1">
       			</xsd:element>
       			<xsd:element name="mensajeSalida" type="xsd:string"></xsd:element>
+      			<xsd:element name="numeroTotalReportesCreados" type="xsd:int"></xsd:element>
       		</xsd:sequence>
       	</xsd:complexType>
       </xsd:element>

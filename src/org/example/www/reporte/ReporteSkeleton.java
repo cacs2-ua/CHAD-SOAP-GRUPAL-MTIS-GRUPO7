@@ -184,9 +184,9 @@ import ConexionDB.ReporteRepository;
               		datosReporte.setNumeroTotalFacturasAnuladas(numeroTotalFacturasAnuladas);
               		datosReporte.setNumeroTotalFacturasInvalidas(numeroTotalFacturasInvalidas);
               		int numeroTotalReportesCreados = this.reporteRepository.devolverTotalReportesCreados(fechaInicio, fechaFin);
-              		
-              		datosReporte.setNumeroTotalReportesCreados(numeroTotalReportesCreados);
               		response.setDatosReporte(datosReporte);
+              		
+              		response.setNumeroTotalReportesCreados(numeroTotalReportesCreados);
               		
               		
               		if (datosReporte.getNumeroTotalFacturasEmitidas() == 0) {
