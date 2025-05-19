@@ -26,6 +26,36 @@
             
 
                         /**
+                        * field for ReporteId
+                        */
+
+                        
+                                    protected int localReporteId ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getReporteId(){
+                               return localReporteId;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ReporteId
+                               */
+                               public void setReporteId(int param){
+                            
+                                            this.localReporteId=param;
+                                       
+
+                               }
+                            
+
+                        /**
                         * field for MensajeSalida
                         */
 
@@ -114,6 +144,19 @@
                
                    }
                
+                                    namespace = "";
+                                    writeStartElement(null, namespace, "reporteId", xmlWriter);
+                             
+                                               if (localReporteId==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("reporteId cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localReporteId));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             
                                     namespace = "";
                                     writeStartElement(null, namespace, "mensajeSalida", xmlWriter);
                              
@@ -318,6 +361,12 @@
 
                 
                                       elementList.add(new javax.xml.namespace.QName("",
+                                                                      "reporteId"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localReporteId));
+                            
+                                      elementList.add(new javax.xml.namespace.QName("",
                                                                       "mensajeSalida"));
                                  
                                         if (localMensajeSalida != null){
@@ -401,6 +450,31 @@
                     
                     reader.next();
                 
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("","reporteId").equals(reader.getName())){
+                                
+                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"reporteId" +"  cannot be null");
+                                    }
+                                    
+
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setReporteId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
+                                }
+                            
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 

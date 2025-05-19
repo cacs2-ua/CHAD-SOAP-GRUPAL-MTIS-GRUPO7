@@ -183,8 +183,11 @@ import ConexionDB.ReporteRepository;
               		datosReporte.setNumeroTotalFacturasSubsanadas(numeroTotalFacturasSubsanadas);
               		datosReporte.setNumeroTotalFacturasAnuladas(numeroTotalFacturasAnuladas);
               		datosReporte.setNumeroTotalFacturasInvalidas(numeroTotalFacturasInvalidas);
+              		int numeroTotalReportesCreados = this.reporteRepository.devolverTotalReportesCreados(fechaInicio, fechaFin);
               		
+              		datosReporte.setNumeroTotalReportesCreados(numeroTotalReportesCreados);
               		response.setDatosReporte(datosReporte);
+              		
               		
               		if (datosReporte.getNumeroTotalFacturasEmitidas() == 0) {
                   		response.setMensajeSalida("Aún no se ha realizado ninguna facturación dentro de la aplicación.");
@@ -250,9 +253,10 @@ import ConexionDB.ReporteRepository;
          		int numeroTotalFacturasAnuladas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasAnuladas();
          		int numeroTotalFacturasInvalidas = guardarReporteEnBD.getDatosEntrada().getNumeroTotalFacturasInvalidas();
 
-                this.reporteRepository.insertarReporte(fechaInicio, fechaFin, empresaId, numeroTotalFacturasEmitidas, sumaTotalImportes, numeroTotalFacturasValidas, numeroTotalFacturasSubsanadas, numeroTotalFacturasAnuladas, numeroTotalFacturasInvalidas);
-                 
-	            response.setMensajeSalida("Reporte de estadísticas insertado correctamente. ");
+                int reporteInsertadoId = this.reporteRepository.insertarReporte(fechaInicio, fechaFin, empresaId, numeroTotalFacturasEmitidas, sumaTotalImportes, numeroTotalFacturasValidas, numeroTotalFacturasSubsanadas, numeroTotalFacturasAnuladas, numeroTotalFacturasInvalidas);
+                
+                response.setReporteId(reporteInsertadoId);
+	            response.setMensajeSalida("Reporte de estadísticas con id: " + reporteInsertadoId + " insertado correctamente. ");
 	             
 	            return response;
               }

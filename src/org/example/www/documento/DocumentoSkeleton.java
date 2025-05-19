@@ -138,10 +138,10 @@ import java.sql.SQLException;
               		String fileName = uuid + "_" + timestamp + ".pdf";
 
               		if (emailEmpresa.equals(emailEmpresaPrincipal)) {
-              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/global/" + fileName;
+              			rutaPDF = "C:/Users/Cris-SX/Documents/troll-things/mtis-documentos-pruebas-facturacion/global/" + fileName;
               		    tituloReporte = "GLOBAL STATISTICS REPORT";
               		} else {
-              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/normal/" + fileName;
+              			rutaPDF = "C:/Users/Cris-SX/Documents/troll-things/mtis-documentos-pruebas-facturacion/normal/" + fileName;
               		    tituloReporte = "STATISTICS REPORT";
               		}
               		

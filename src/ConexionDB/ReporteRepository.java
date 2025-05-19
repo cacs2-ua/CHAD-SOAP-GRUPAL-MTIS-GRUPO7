@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.sql.Statement;
+
 
 import exception.*;
 
@@ -52,54 +54,86 @@ public class ReporteRepository {
         }
 	}
 	
-    public void insertarReporte(
-            LocalDateTime fechaInicio,
-            LocalDateTime fechaFin,
-            int empresaId,
-            int numeroTotalFacturasEmitidas,
-            double sumaTotalImportes,
-            int numeroTotalFacturasValidas,
-            int numeroTotalFacturasSubsanadas,
-            int numeroTotalFacturasAnuladas,
-            int numeroTotalFacturasInvalidas) throws SQLException {
-        Connection con = null;
+	public int insertarReporte(
+	        LocalDateTime fechaInicio,
+	        LocalDateTime fechaFin,
+	        int empresaId,
+	        int numeroTotalFacturasEmitidas,
+	        double sumaTotalImportes,
+	        int numeroTotalFacturasValidas,
+	        int numeroTotalFacturasSubsanadas,
+	        int numeroTotalFacturasAnuladas,
+	        int numeroTotalFacturasInvalidas) throws SQLException {
+
+	    String sql = "INSERT INTO reportes_estadisticas "
+	               + "(fecha_inicio, fecha_fin, empresa_id, numero_total_facturas_emitidas, suma_total_importes, "
+	               + "numero_total_facturas_validas, numero_total_facturas_subsanadas, numero_total_facturas_anuladas, "
+	               + "numero_total_facturas_invalidas) "
+	               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	    try (Connection con = this.conexion.conectar();
+	         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+	        stmt.setTimestamp(1, Timestamp.valueOf(fechaInicio));
+	        stmt.setTimestamp(2, Timestamp.valueOf(fechaFin));
+	        stmt.setInt(3, empresaId);
+	        stmt.setInt(4, numeroTotalFacturasEmitidas);
+	        stmt.setDouble(5, sumaTotalImportes);
+	        stmt.setInt(6, numeroTotalFacturasValidas);
+	        stmt.setInt(7, numeroTotalFacturasSubsanadas);
+	        stmt.setInt(8, numeroTotalFacturasAnuladas);
+	        stmt.setInt(9, numeroTotalFacturasInvalidas);
+
+	        int filasAfectadas = stmt.executeUpdate();
+	        if (filasAfectadas == 0) {
+	            throw new SQLException("Inserción fallida, no se generó ningún ID.");
+	        }
+
+	        try (ResultSet rs = stmt.getGeneratedKeys()) {
+	            if (rs.next()) {
+	                return rs.getInt(1);
+	            } else {
+	                throw new SQLException("Inserción realizada pero no se pudo obtener el ID generado.");
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    }
+	}
+
+	public int devolverTotalReportesCreados(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws SQLException {
+		Connection con = null;
         PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
         try {
         	con = this.conexion.conectar();
-
-            String sql = "INSERT INTO reportes_estadisticas "
-                       + "(fecha_inicio, fecha_fin, empresa_id, numero_total_facturas_emitidas, suma_total_importes, "
-                       + "numero_total_facturas_validas, numero_total_facturas_subsanadas, numero_total_facturas_anuladas, "
-                       + "numero_total_facturas_invalidas) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+            String sql = "SELECT COUNT(DISTINCT r.id) AS total " +
+                    "FROM reportes_estadisticas r " +
+                    "WHERE r.fecha_inicio >= ? " +
+                    "  AND r.fecha_fin    <= ?";
             stmt = con.prepareStatement(sql);
             stmt.setTimestamp(1, Timestamp.valueOf(fechaInicio));
             stmt.setTimestamp(2, Timestamp.valueOf(fechaFin));
-            stmt.setInt(3, empresaId);
-            stmt.setInt(4, numeroTotalFacturasEmitidas);
-            stmt.setDouble(5, sumaTotalImportes);
-            stmt.setInt(6, numeroTotalFacturasValidas);
-            stmt.setInt(7, numeroTotalFacturasSubsanadas);
-            stmt.setInt(8, numeroTotalFacturasAnuladas);
-            stmt.setInt(9, numeroTotalFacturasInvalidas);
-
-            // 4. Ejecutar la insercion
-            int filasAfectadas = stmt.executeUpdate();
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("total");
+            } else {
+                return 0;
+            }
 
         } catch (Exception e) {
-	    	e.printStackTrace();
-        	throw e;
+            e.printStackTrace();
+            throw e;
         } finally {
-            // Cerrar recursos en el finally
-            if (stmt != null) {
-                try { stmt.close(); } catch (Exception e) { e.printStackTrace(); }
-            }
-            if (con != null) {
-                try { con.close(); } catch (Exception e) { e.printStackTrace(); }
-            }
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
         }
-    }
+	}
 	
 	public int devolverTotalFacturasEmitidasEmpresa(String email, LocalDateTime fechaInicio, LocalDateTime fechaFin) throws SQLException {
 		Connection con = null;

@@ -32,6 +32,7 @@
       	<xsd:complexType>
       		<xsd:sequence>
 
+      			<xsd:element name="reporteId" type="xsd:int"/>
       			<xsd:element name="mensajeSalida" type="xsd:string"/>
       		</xsd:sequence>
       	</xsd:complexType>
@@ -64,6 +65,7 @@
       		<xsd:element name="numeroTotalFacturasInvalidas" type="xsd:int">
       		</xsd:element>
       		<xsd:element name="emailEmpresa" type="xsd:string"/>
+      		<xsd:element name="numeroTotalReportesCreados" type="xsd:int"/>
       	</xsd:sequence>
       </xsd:complexType>
       <xsd:element name="calcularDatosReporteGlobal">
