@@ -36,7 +36,10 @@
       		<xsd:element name="numeroTotalFacturasAnuladas"
       			type="xsd:int">
       		</xsd:element>
-      		<xsd:element name="numeroTotalFacturasInvalidas" type="xsd:int"></xsd:element>
+      		<xsd:element name="numeroTotalFacturasInvalidas"
+      			type="xsd:int">
+      		</xsd:element>
+      		<xsd:element name="numeroTotalReportesCreados" type="xsd:int"></xsd:element>
       	</xsd:sequence>
       </xsd:complexType>
     </xsd:schema>
