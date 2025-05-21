@@ -138,10 +138,10 @@ import java.sql.SQLException;
               		String fileName = uuid + "_" + timestamp + ".pdf";
 
               		if (emailEmpresa.equals(emailEmpresaPrincipal)) {
-              			rutaPDF = "C:/Users/Cris-SX/Documents/troll-things/mtis-documentos-pruebas-facturacion/global/" + fileName;
+              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/global/" + fileName;
               		    tituloReporte = "GLOBAL STATISTICS REPORT";
               		} else {
-              			rutaPDF = "C:/Users/Cris-SX/Documents/troll-things/mtis-documentos-pruebas-facturacion/normal/" + fileName;
+              			rutaPDF = "C:/MTIS/workspaceEclipse/reporteEstadisticas/src/resources/reportes/normal/" + fileName;
               		    tituloReporte = "STATISTICS REPORT";
               		}
               		
@@ -238,12 +238,15 @@ import java.sql.SQLException;
 	                            .add(new Text(String.valueOf(numeroTotalFacturasEmitidas)).setFont(font).setFontSize(10))
 	                    );
 	                    
-	                    document.add(new Paragraph()
-	                            .setMarginLeft(20)
-	                            .add(new Text("- ").setFont(font).setFontSize(10))
-	                            .add(new Text("Total sum of all amounts (including VAT): ").setFont(bold).setFontSize(10))
-	                            .add(new Text(String.valueOf(sumaTotalImportes)).setFont(font).setFontSize(10))
-	                    );
+	                    if (!emailEmpresa.equals(emailEmpresaPrincipal)) {
+		                    document.add(new Paragraph()
+		                            .setMarginLeft(20)
+		                            .add(new Text("- ").setFont(font).setFontSize(10))
+		                            .add(new Text("Total sum of all amounts (including VAT): ").setFont(bold).setFontSize(10))
+		                            .add(new Text(String.valueOf(sumaTotalImportes)).setFont(font).setFontSize(10))
+		                    );
+	                    }
+
 	                    
 	                    document.add(new Paragraph()
 	                            .setMarginLeft(20)

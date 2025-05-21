@@ -51,6 +51,7 @@
     <wsdl:part element="tns:iniciarResponse" name="parameters"/>
   </wsdl:message>
   <wsdl:portType name="IniciarConsultaEstadisticasGlobales">
+    <wsdl:documentation>Servicio iniciador de la composición del proceso de negocio de estadísticas</wsdl:documentation>
     <wsdl:operation name="iniciar">
       <wsdl:input message="tns:iniciarRequest"/>
       <wsdl:output message="tns:iniciarResponse"/>
